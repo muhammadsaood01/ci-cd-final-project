@@ -4,12 +4,12 @@ metadata:
   name: cleanup
 spec:
   steps:
-    - name: cleanup
-      image: alpine
+    - name: cleanup-step
+      image: busybox
       script: |
-        #!/bin/sh
-        echo "Performing cleanup..."
-        rm -rf /workspace/output/*
+        echo "Cleaning up..."
+
+---
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
@@ -17,8 +17,6 @@ metadata:
 spec:
   steps:
     - name: run-tests
-      image: python:3.9-slim
+      image: python:3.9
       script: |
-        python -m pip install --upgrade pip
-        pip install nose
         nosetests -v --with-spec --spec-color --with-coverage --cover-package=app
